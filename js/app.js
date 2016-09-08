@@ -31,8 +31,6 @@
 
 			this.tasks = JSON.parse(localStorage.simpletodo);
 			this.lastTaskID = this.tasks[this.tasks.length-1].id;
-
-			console.log(this.lastTaskID);
 		},
 
 		tasks: null,
@@ -44,6 +42,12 @@
 				name: name,
 				complete: false
 			});
+
+			this.updateLocalStorage();
+		},
+
+		updateLocalStorage: function() {
+			localStorage.simpletodo = JSON.stringify(this.tasks);
 		}
 	}
 
