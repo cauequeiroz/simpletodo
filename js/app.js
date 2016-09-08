@@ -11,13 +11,15 @@
  	- Complete a task
  	- Remove a task
  	- Store everything on localStorage
- 	- Complete multiple tasks with SHIFT key pressed
 
   ------------------------------
 */
 (function() {
 
 	var Model = {
+		tasks: null,
+		lastTaskID: 0,
+
 		init: function() {
 			if ( !localStorage.simpletodo ) {
 				localStorage.simpletodo = JSON.stringify([
@@ -33,9 +35,6 @@
 			this.lastTaskID = this.tasks[this.tasks.length-1].id;
 		},
 
-		tasks: null,
-		lastTaskID: 0,
-
 		addTask: function(name) {
 			this.tasks.push({
 				id: ++this.lastTaskID,
@@ -44,6 +43,22 @@
 			});
 
 			this.updateLocalStorage();
+		},
+
+		removeTask: function(id) {			
+			this.tasks = this.tasks.filter(function(item) {
+				return item.id != id;
+			});
+
+			this.updateLocalStorage();
+		},
+
+		completeTask: function(id) {
+			this.tasks.forEach(function(item) {
+				if ( item.id == id ) {
+					item.complete = (item.complete) ? false : true;
+				}
+			});
 		},
 
 		updateLocalStorage: function() {
@@ -62,6 +77,15 @@
 					this.value = '';
 				}
 			}, false);
+
+			this.$list.addEventListener('click', function(e) {
+				if ( e.target.classList.contains('remove-task') ) {
+					Octopus.removeTask(e.target.parentNode);
+				}
+				else if ( e.target.classList.contains('task') ) {
+					Octopus.completeTask(e.target);
+				}
+			});
 
 			this.render();
 		},
@@ -100,17 +124,28 @@
 			View.init();
 		},
 
+		getTasks: function() {
+			return Model.tasks;
+		},
+
 		addTask: function(name) {
 			Model.addTask(name);
 			View.render();
 		},
 
-		getTasks: function() {
-			return Model.tasks;
+		removeTask: function(task) {
+			var id = task.getAttribute('data-id');
+			Model.removeTask(id);
+			View.render();
+		},
+
+		completeTask: function(task) {
+			var id = task.getAttribute('data-id');
+			Model.completeTask(id);
+			View.render();
 		}
 	}
 
-	// Initialize application
 	Octopus.init();
 
 })();
