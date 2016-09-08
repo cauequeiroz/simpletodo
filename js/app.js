@@ -59,6 +59,8 @@
 					item.complete = (item.complete) ? false : true;
 				}
 			});
+
+			this.updateLocalStorage();
 		},
 
 		updateLocalStorage: function() {
