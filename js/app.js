@@ -21,8 +21,8 @@
 		lastTaskID: 0,
 
 		init: function() {
-			if ( !localStorage.simpletodo ) {
-				localStorage.simpletodo = JSON.stringify([
+			if ( !localStorage.dbsimpletodo ) {
+				localStorage.dbsimpletodo = JSON.stringify([
 					{id: 0, name: 'Do something', complete: false},
 					{id: 1, name: 'Do something else', complete: true},
 					{id: 2, name: 'Do more stuff', complete: true},
@@ -31,7 +31,7 @@
 				]);
 			}
 
-			this.tasks = JSON.parse(localStorage.simpletodo);
+			this.tasks = JSON.parse(localStorage.dbsimpletodo);
 			this.lastTaskID = this.tasks[this.tasks.length-1].id;
 		},
 
@@ -62,7 +62,7 @@
 		},
 
 		updateLocalStorage: function() {
-			localStorage.simpletodo = JSON.stringify(this.tasks);
+			localStorage.dbsimpletodo = JSON.stringify(this.tasks);
 		}
 	}
 
