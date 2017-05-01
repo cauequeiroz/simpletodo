@@ -15,7 +15,6 @@
   ------------------------------
 */
 (function() {
-
 	var Model = {
 		tasks: null,
 		lastTaskID: 0,
@@ -149,5 +148,4 @@
 	}
 
 	Octopus.init();
-
 })();
